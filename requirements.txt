@@ -1,0 +1,33 @@
+# FinRegAgents competition dependencies
+# Runtime target: Python 3.11 or 3.12
+
+# Retrieval + indexing
+llama-index-core>=0.11.0
+llama-index-readers-file>=0.2.0
+
+# LangChain core and OpenAI-compatible client used for DashScope.
+# Authentication is DASHSCOPE_API_KEY, not an OpenAI credential.
+langchain-core>=0.3.0
+langchain-openai>=0.2.0
+
+# Local embeddings
+llama-index-embeddings-fastembed>=0.2.0
+fastembed>=0.3.0,<0.8.0
+
+# Document processing
+pypdf>=4.0.0
+pandas>=2.0.0
+openpyxl>=3.1.0
+xlrd>=2.0.1
+
+# Utilities
+python-dotenv>=1.0.0
+pyyaml>=6.0
+tqdm>=4.66.0
+pydantic>=2.0
+pillow>=10.3.0,<12.0.0
+
+# App, testing, linting
+streamlit>=1.30.0
+pytest>=8.0.0
+ruff>=0.4.0
