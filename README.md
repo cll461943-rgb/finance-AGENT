@@ -7,8 +7,9 @@
 ## 当前状态
 
 - 第一周：业务场景、用户故事、评测初稿、500 份语料清点、16 份解析 PoC、接口设计稿已归档。
-- 第二周：正在冻结统一仓库、接口契约、公平比较协议和联调验收规则。
-- 已知边界：`auto_checked` 仅表示自动结构校验，不等于人工确认；完整四类 Baseline 指标尚未形成。
+- 第二周：统一仓库、四类核心接口、公平比较协议、方法注册表和契约 Smoke 入口已完成。
+- 契约验证：128 条第一周 EvidenceRecord 样例全部通过严格模型校验，自动化测试为 `13 passed`。
+- 已知边界：`auto_checked` 仅表示自动结构校验，不等于人工确认；Hybrid、FinSage、RegulatoryRAG-ML、HiREC-Lite 尚无可接入实现和正式横向指标。
 
 ## 目录
 
@@ -19,8 +20,6 @@ docs/
     ├── week1/         # 第一周任务与成员交付
     └── week2/         # 第二周任务与后续交付
 ```
-
-第二周完成后将补充：
 
 ```text
 configs/      # 可复现实验配置
@@ -33,6 +32,23 @@ schemas/      # QueryPlan / EvidenceRecord / AnswerResponse / TraceRecord
 src/          # RegRAG 主工程
 tests/        # 契约与最小联调测试
 ```
+
+## 快速验证
+
+```powershell
+$env:PYTHONPATH = "src"
+py -3.12 -m pytest -q
+py -3.12 -m regrag list-methods
+py -3.12 -m regrag validate-evidence `
+  --evidence-store "docs/progress/week1/罗佳佳/outputs/evidence_samples.jsonl"
+py -3.12 -m regrag run `
+  --method contract-smoke `
+  --query examples/query_table_lookup.json `
+  --evidence-store "docs/progress/week1/罗佳佳/outputs/evidence_samples.jsonl" `
+  --output outputs/smoke/contract_smoke_result.json
+```
+
+`contract-smoke` 只验证统一入口、契约、引用和 Trace，不是 Hybrid 或完整 RegRAG 的正式性能实现。
 
 ## 数据与合规
 

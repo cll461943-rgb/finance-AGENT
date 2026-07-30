@@ -18,6 +18,9 @@ index/*
 !index/README.md
 outputs/*
 !outputs/README.md
+!outputs/smoke/
+outputs/smoke/*
+!outputs/smoke/*.json
 data/raw/
 data/private/
 reports/private/

@@ -1,0 +1,415 @@
+{
+  "schema_version": "1.0.0",
+  "metadata": {
+    "run_id": "RUN-247E62B85947",
+    "method_id": "contract-smoke",
+    "method_version": "0.1.0",
+    "implementation_status": "contract_smoke",
+    "started_at": "2026-07-30T06:16:49.134855Z",
+    "ended_at": "2026-07-30T06:16:49.139518Z",
+    "config_sha256": "7566f22855efaef4df9be49d7e575ae5cf05fe7ca6213b299e0050a6dc265b57",
+    "evidence_store": "docs/progress/week1/罗佳佳/outputs/evidence_samples.jsonl",
+    "evaluation_set": "single_fixture",
+    "random_seed": 42
+  },
+  "query_plan": {
+    "query_id": "Q-SMOKE-001",
+    "question": "2025年9月全国各地区原保险保费收入合计是多少？",
+    "query_type": "table_lookup",
+    "slots": {
+      "agency": null,
+      "document_title": "2025年9月全国各地区原保险保费收入情况表",
+      "clause_no": null,
+      "metric_name": "原保险保费收入合计",
+      "period": "2025-09",
+      "institution": "全国",
+      "unit": "亿元",
+      "version_scope": null
+    },
+    "need_clarification": false,
+    "clarification_question": null,
+    "is_multi_hop": false,
+    "route_plan": [
+      "metadata_filter",
+      "table_retriever",
+      "evidence_gate"
+    ],
+    "max_hops": 1
+  },
+  "retrieval_hits": [
+    {
+      "rank": 1,
+      "score": 5.863636,
+      "evidence": {
+        "schema_version": "1.0.0",
+        "evidence_id": "DOC-032-2ddfb401b298-CELL-001",
+        "doc_id": "DOC-032-2ddfb401b298",
+        "evidence_type": "table_cell",
+        "source": {
+          "title": "2025年9月全国各地区原保险保费收入情况表",
+          "local_path": "nfra_page_attachments_500/032_2025年9月全国各地区原保险保费收入情况表_2025年9月全国各地区原保险保费收入情况表.xlsx",
+          "source_url": null,
+          "file_sha256": "2ddfb401b2984aad7d5098dc364221cd0f973784814749be1efa2dbedd8d306d"
+        },
+        "content": "全  国 | 合计 | 52145.77",
+        "location": {
+          "page": null,
+          "chapter": null,
+          "section": null,
+          "clause_no": null,
+          "char_start": null,
+          "char_end": null,
+          "sheet_name": "各地区数据（月度）",
+          "cell_range": "C4"
+        },
+        "table_semantics": {
+          "row_header": "全  国",
+          "column_header": "合计",
+          "header_path": [
+            "合计"
+          ],
+          "value": "52145.77",
+          "unit": "亿元",
+          "period": "2025",
+          "scale": null,
+          "footnote": null,
+          "formula": null
+        },
+        "regulation_metadata": {
+          "agency": null,
+          "publish_date": null,
+          "effective_date": null,
+          "expire_date": null,
+          "status": "unknown",
+          "version_relation": null
+        },
+        "quality": {
+          "validation_status": "auto_checked",
+          "support_type": "unknown",
+          "sufficiency": "unknown",
+          "conflict_group": null,
+          "parser_name": "regrag_data_foundation",
+          "parser_version": "1.0.0",
+          "warnings": []
+        }
+      }
+    },
+    {
+      "rank": 2,
+      "score": 3.772727,
+      "evidence": {
+        "schema_version": "1.0.0",
+        "evidence_id": "DOC-032-2ddfb401b298-CELL-002",
+        "doc_id": "DOC-032-2ddfb401b298",
+        "evidence_type": "table_cell",
+        "source": {
+          "title": "2025年9月全国各地区原保险保费收入情况表",
+          "local_path": "nfra_page_attachments_500/032_2025年9月全国各地区原保险保费收入情况表_2025年9月全国各地区原保险保费收入情况表.xlsx",
+          "source_url": null,
+          "file_sha256": "2ddfb401b2984aad7d5098dc364221cd0f973784814749be1efa2dbedd8d306d"
+        },
+        "content": "全  国 | 财产险 | 11250.32",
+        "location": {
+          "page": null,
+          "chapter": null,
+          "section": null,
+          "clause_no": null,
+          "char_start": null,
+          "char_end": null,
+          "sheet_name": "各地区数据（月度）",
+          "cell_range": "D4"
+        },
+        "table_semantics": {
+          "row_header": "全  国",
+          "column_header": "财产险",
+          "header_path": [
+            "财产险"
+          ],
+          "value": "11250.32",
+          "unit": "亿元",
+          "period": "2025",
+          "scale": null,
+          "footnote": null,
+          "formula": null
+        },
+        "regulation_metadata": {
+          "agency": null,
+          "publish_date": null,
+          "effective_date": null,
+          "expire_date": null,
+          "status": "unknown",
+          "version_relation": null
+        },
+        "quality": {
+          "validation_status": "auto_checked",
+          "support_type": "unknown",
+          "sufficiency": "unknown",
+          "conflict_group": null,
+          "parser_name": "regrag_data_foundation",
+          "parser_version": "1.0.0",
+          "warnings": []
+        }
+      }
+    },
+    {
+      "rank": 3,
+      "score": 3.772727,
+      "evidence": {
+        "schema_version": "1.0.0",
+        "evidence_id": "DOC-032-2ddfb401b298-CELL-003",
+        "doc_id": "DOC-032-2ddfb401b298",
+        "evidence_type": "table_cell",
+        "source": {
+          "title": "2025年9月全国各地区原保险保费收入情况表",
+          "local_path": "nfra_page_attachments_500/032_2025年9月全国各地区原保险保费收入情况表_2025年9月全国各地区原保险保费收入情况表.xlsx",
+          "source_url": null,
+          "file_sha256": "2ddfb401b2984aad7d5098dc364221cd0f973784814749be1efa2dbedd8d306d"
+        },
+        "content": "全  国 | 寿险 | 31707.75",
+        "location": {
+          "page": null,
+          "chapter": null,
+          "section": null,
+          "clause_no": null,
+          "char_start": null,
+          "char_end": null,
+          "sheet_name": "各地区数据（月度）",
+          "cell_range": "E4"
+        },
+        "table_semantics": {
+          "row_header": "全  国",
+          "column_header": "寿险",
+          "header_path": [
+            "寿险"
+          ],
+          "value": "31707.75",
+          "unit": "亿元",
+          "period": "2025",
+          "scale": null,
+          "footnote": null,
+          "formula": null
+        },
+        "regulation_metadata": {
+          "agency": null,
+          "publish_date": null,
+          "effective_date": null,
+          "expire_date": null,
+          "status": "unknown",
+          "version_relation": null
+        },
+        "quality": {
+          "validation_status": "auto_checked",
+          "support_type": "unknown",
+          "sufficiency": "unknown",
+          "conflict_group": null,
+          "parser_name": "regrag_data_foundation",
+          "parser_version": "1.0.0",
+          "warnings": []
+        }
+      }
+    },
+    {
+      "rank": 4,
+      "score": 3.772727,
+      "evidence": {
+        "schema_version": "1.0.0",
+        "evidence_id": "DOC-032-2ddfb401b298-CELL-004",
+        "doc_id": "DOC-032-2ddfb401b298",
+        "evidence_type": "table_cell",
+        "source": {
+          "title": "2025年9月全国各地区原保险保费收入情况表",
+          "local_path": "nfra_page_attachments_500/032_2025年9月全国各地区原保险保费收入情况表_2025年9月全国各地区原保险保费收入情况表.xlsx",
+          "source_url": null,
+          "file_sha256": "2ddfb401b2984aad7d5098dc364221cd0f973784814749be1efa2dbedd8d306d"
+        },
+        "content": "全  国 | 单位：亿元 / 意外险 | 760.71",
+        "location": {
+          "page": null,
+          "chapter": null,
+          "section": null,
+          "clause_no": null,
+          "char_start": null,
+          "char_end": null,
+          "sheet_name": "各地区数据（月度）",
+          "cell_range": "F4"
+        },
+        "table_semantics": {
+          "row_header": "全  国",
+          "column_header": "意外险",
+          "header_path": [
+            "单位：亿元",
+            "意外险"
+          ],
+          "value": "760.71",
+          "unit": "亿元",
+          "period": "2025",
+          "scale": null,
+          "footnote": null,
+          "formula": null
+        },
+        "regulation_metadata": {
+          "agency": null,
+          "publish_date": null,
+          "effective_date": null,
+          "expire_date": null,
+          "status": "unknown",
+          "version_relation": null
+        },
+        "quality": {
+          "validation_status": "auto_checked",
+          "support_type": "unknown",
+          "sufficiency": "unknown",
+          "conflict_group": null,
+          "parser_name": "regrag_data_foundation",
+          "parser_version": "1.0.0",
+          "warnings": []
+        }
+      }
+    },
+    {
+      "rank": 5,
+      "score": 3.772727,
+      "evidence": {
+        "schema_version": "1.0.0",
+        "evidence_id": "DOC-032-2ddfb401b298-CELL-005",
+        "doc_id": "DOC-032-2ddfb401b298",
+        "evidence_type": "table_cell",
+        "source": {
+          "title": "2025年9月全国各地区原保险保费收入情况表",
+          "local_path": "nfra_page_attachments_500/032_2025年9月全国各地区原保险保费收入情况表_2025年9月全国各地区原保险保费收入情况表.xlsx",
+          "source_url": null,
+          "file_sha256": "2ddfb401b2984aad7d5098dc364221cd0f973784814749be1efa2dbedd8d306d"
+        },
+        "content": "全  国 | 健康险 | 8426.99",
+        "location": {
+          "page": null,
+          "chapter": null,
+          "section": null,
+          "clause_no": null,
+          "char_start": null,
+          "char_end": null,
+          "sheet_name": "各地区数据（月度）",
+          "cell_range": "G4"
+        },
+        "table_semantics": {
+          "row_header": "全  国",
+          "column_header": "健康险",
+          "header_path": [
+            "健康险"
+          ],
+          "value": "8426.99",
+          "unit": "亿元",
+          "period": "2025",
+          "scale": null,
+          "footnote": null,
+          "formula": null
+        },
+        "regulation_metadata": {
+          "agency": null,
+          "publish_date": null,
+          "effective_date": null,
+          "expire_date": null,
+          "status": "unknown",
+          "version_relation": null
+        },
+        "quality": {
+          "validation_status": "auto_checked",
+          "support_type": "unknown",
+          "sufficiency": "unknown",
+          "conflict_group": null,
+          "parser_name": "regrag_data_foundation",
+          "parser_version": "1.0.0",
+          "warnings": []
+        }
+      }
+    }
+  ],
+  "answer_response": {
+    "query_id": "Q-SMOKE-001",
+    "status": "answered",
+    "answer": "根据自动校验样例（尚未人工复核），《2025年9月全国各地区原保险保费收入情况表》中，全国合计为52145.77亿元。",
+    "evidence": [
+      "DOC-032-2ddfb401b298-CELL-001"
+    ],
+    "source_title": [
+      "2025年9月全国各地区原保险保费收入情况表"
+    ],
+    "source_url": [
+      null
+    ],
+    "local_path": [
+      "nfra_page_attachments_500/032_2025年9月全国各地区原保险保费收入情况表_2025年9月全国各地区原保险保费收入情况表.xlsx"
+    ],
+    "difficulty": "easy",
+    "qa_type": "table_lookup",
+    "tags": [
+      "contract_smoke",
+      "evidence_auto_checked"
+    ],
+    "citations": [
+      {
+        "evidence_id": "DOC-032-2ddfb401b298-CELL-001",
+        "location": "Sheet=各地区数据（月度）, Cell=C4",
+        "quote": "全  国 | 合计 | 52145.77"
+      }
+    ],
+    "clarification_question": null,
+    "refusal_reason": null,
+    "trace_id": "TRACE-52443E233315",
+    "latency_ms": 4.718900003354065
+  },
+  "trace_record": {
+    "trace_id": "TRACE-52443E233315",
+    "query_id": "Q-SMOKE-001",
+    "started_at": "2026-07-30T06:16:49.134855Z",
+    "ended_at": "2026-07-30T06:16:49.139518Z",
+    "steps": [
+      {
+        "step_no": 1,
+        "module": "query_parser",
+        "input_ref": "Q-SMOKE-001",
+        "output_ref": "QueryPlan",
+        "status": "success",
+        "message": null,
+        "elapsed_ms": 0.0
+      },
+      {
+        "step_no": 2,
+        "module": "retriever",
+        "input_ref": "QueryPlan",
+        "output_ref": "DOC-032-2ddfb401b298-CELL-001",
+        "status": "success",
+        "message": "Scored 128 evidence records; returned top 5.",
+        "elapsed_ms": 4.718900003354065
+      },
+      {
+        "step_no": 3,
+        "module": "evidence_gate",
+        "input_ref": "DOC-032-2ddfb401b298-CELL-001",
+        "output_ref": "DOC-032-2ddfb401b298-CELL-001",
+        "status": "warning",
+        "message": "Evidence is auto_checked, not manually verified.",
+        "elapsed_ms": 0.0
+      },
+      {
+        "step_no": 4,
+        "module": "generator",
+        "input_ref": "DOC-032-2ddfb401b298-CELL-001",
+        "output_ref": "TRACE-52443E233315",
+        "status": "success",
+        "message": "Deterministic table-value template; no LLM call.",
+        "elapsed_ms": 0.0
+      }
+    ],
+    "final_status": "answered",
+    "token_usage": 0,
+    "total_cost": 0.0
+  },
+  "metrics": {
+    "retrieval_hit_count": 5,
+    "top_score": 5.863636,
+    "latency_ms": 4.718900003354065,
+    "token_usage": 0,
+    "estimated_cost": 0.0
+  }
+}
