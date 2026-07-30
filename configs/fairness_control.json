@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_store_version": "week1-poc-1.0.0",
+  "embedding_model": "BGE-M3 (benchmark target; not used by contract smoke)",
+  "reranker_model": "fixed-by-benchmark-owner",
+  "generation_model": "fixed-by-benchmark-owner",
+  "candidate_budget": {
+    "retrieval_top_k": 20,
+    "rerank_top_k": 10,
+    "max_supplemental_queries": 1
+  },
+  "evaluation_sets": {
+    "end_to_end": "CoreEval-80",
+    "retrieval": "RetrievalGold-40"
+  },
+  "random_seed": 42,
+  "required_metrics": [
+    "Recall@5",
+    "Recall@10",
+    "nDCG@10",
+    "Citation Hit",
+    "answer_accuracy",
+    "P50",
+    "P95",
+    "token_usage",
+    "estimated_cost"
+  ]
+}

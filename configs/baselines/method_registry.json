@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "methods": [
+    {
+      "method_id": "contract-smoke",
+      "status": "contract_smoke",
+      "owner": "陈伦禄",
+      "adapter": "regrag.runner:run_contract_smoke",
+      "blocked_reason": null
+    },
+    {
+      "method_id": "hybrid",
+      "status": "blocked",
+      "owner": "程仁杰",
+      "adapter": null,
+      "blocked_reason": "未收到基于统一 EvidenceStore 的 BM25+Dense+RRF+Reranker 实现与 20 题日志"
+    },
+    {
+      "method_id": "finsage-adapted",
+      "status": "blocked",
+      "owner": "程仁杰",
+      "adapter": null,
+      "blocked_reason": "未收到删除场景硬编码后的多路径检索实现与运行日志"
+    },
+    {
+      "method_id": "regulatory-rag-ml-adapted",
+      "status": "blocked",
+      "owner": "程仁杰",
+      "adapter": null,
+      "blocked_reason": "未收到监管特征、Score Filter、引用与拒答分支实现"
+    },
+    {
+      "method_id": "hirec-lite",
+      "status": "blocked",
+      "owner": "程仁杰",
+      "adapter": null,
+      "blocked_reason": "未收到文档级到证据级检索、完整性判断与最多一次补查实现"
+    }
+  ]
+}
