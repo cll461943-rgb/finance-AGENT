@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/regrag/query-plan.schema.json",
+  "title": "RegRAG QueryPlan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["query_id", "question", "query_type", "slots", "need_clarification", "is_multi_hop", "route_plan"],
+  "properties": {
+    "query_id": {"type": "string", "minLength": 1},
+    "question": {"type": "string", "minLength": 1},
+    "query_type": {"enum": ["regulation_fact", "threshold", "business_process", "table_lookup", "cross_file_judgement", "out_of_scope"]},
+    "slots": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "agency": {"type": ["string", "null"]},
+        "document_title": {"type": ["string", "null"]},
+        "clause_no": {"type": ["string", "null"]},
+        "metric_name": {"type": ["string", "null"]},
+        "period": {"type": ["string", "null"]},
+        "institution": {"type": ["string", "null"]},
+        "unit": {"type": ["string", "null"]},
+        "version_scope": {"type": ["string", "null"]}
+      }
+    },
+    "need_clarification": {"type": "boolean"},
+    "clarification_question": {"type": ["string", "null"]},
+    "is_multi_hop": {"type": "boolean"},
+    "route_plan": {
+      "type": "array",
+      "items": {"enum": ["bm25", "dense", "metadata_filter", "table_retriever", "hierarchical_retrieval", "reranker", "evidence_gate", "python_tool"]},
+      "minItems": 1
+    },
+    "max_hops": {"type": "integer", "minimum": 1, "maximum": 3, "default": 2}
+  }
+}
