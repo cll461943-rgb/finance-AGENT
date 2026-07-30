@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/regrag/answer-response.schema.json",
+  "title": "RegRAG AnswerResponse",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["query_id", "status", "answer", "evidence", "source_title", "source_url", "local_path", "difficulty", "qa_type", "tags", "trace_id"],
+  "properties": {
+    "query_id": {"type": "string"},
+    "status": {"enum": ["answered", "clarify", "refused", "conflict", "error"]},
+    "answer": {"type": ["string", "null"]},
+    "evidence": {"type": "array", "items": {"type": "string"}},
+    "source_title": {"type": "array", "items": {"type": "string"}},
+    "source_url": {"type": "array", "items": {"type": ["string", "null"]}},
+    "local_path": {"type": "array", "items": {"type": "string"}},
+    "difficulty": {"enum": ["easy", "medium", "hard", "unknown"]},
+    "qa_type": {"enum": ["regulation_fact", "threshold", "business_process", "table_lookup", "cross_file_judgement", "out_of_scope"]},
+    "tags": {"type": "array", "items": {"type": "string"}},
+    "citations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["evidence_id", "location"],
+        "properties": {
+          "evidence_id": {"type": "string"},
+          "location": {"type": "string"},
+          "quote": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "clarification_question": {"type": ["string", "null"]},
+    "refusal_reason": {"type": ["string", "null"]},
+    "trace_id": {"type": "string"},
+    "latency_ms": {"type": ["number", "null"], "minimum": 0}
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "query_plan": {
+    "query_id": "Q-DEMO-001",
+    "question": "2025年9月全国各地区原保险保费收入合计是多少？",
+    "query_type": "table_lookup",
+    "slots": {
+      "agency": null,
+      "document_title": "2025年9月全国各地区原保险保费收入情况表",
+      "clause_no": null,
+      "metric_name": "全国合计",
+      "period": "2025-09",
+      "institution": "全国",
+      "unit": "亿元",
+      "version_scope": null
+    },
+    "need_clarification": false,
+    "clarification_question": null,
+    "is_multi_hop": false,
+    "route_plan": ["metadata_filter", "table_retriever", "reranker", "evidence_gate"],
+    "max_hops": 1
+  },
+  "answer_response": {
+    "query_id": "Q-DEMO-001",
+    "status": "answered",
+    "answer": "2025年9月全国各地区原保险保费收入合计为52145.77亿元。",
+    "evidence": ["DOC-032-2ddfb401b298-CELL-DEMO"],
+    "source_title": ["2025年9月全国各地区原保险保费收入情况表"],
+    "source_url": [null],
+    "local_path": ["nfra_page_attachments_500/032_2025年9月全国各地区原保险保费收入情况表.xlsx"],
+    "difficulty": "easy",
+    "qa_type": "table_lookup",
+    "tags": ["统计表格取数题", "月度", "保险业"],
+    "citations": [
+      {
+        "evidence_id": "DOC-032-2ddfb401b298-CELL-DEMO",
+        "location": "Sheet=各地区数据（月度）, Cell=待人工核准",
+        "quote": "全国合计 | 合计 | 52145.77"
+      }
+    ],
+    "clarification_question": null,
+    "refusal_reason": null,
+    "trace_id": "TRACE-DEMO-001",
+    "latency_ms": null
+  }
+}

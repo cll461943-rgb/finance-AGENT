@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/regrag/evidence-record.schema.json",
+  "title": "RegRAG EvidenceRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "evidence_id", "doc_id", "evidence_type", "source", "content", "location", "table_semantics", "regulation_metadata", "quality"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "evidence_id": {"type": "string", "minLength": 1},
+    "doc_id": {"type": "string", "pattern": "^DOC-[0-9]{3}-[0-9a-f]{12}$"},
+    "evidence_type": {"enum": ["clause", "paragraph", "table_cell", "table_region", "figure_region"]},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "local_path", "source_url", "file_sha256"],
+      "properties": {
+        "title": {"type": "string", "minLength": 1},
+        "local_path": {"type": "string", "minLength": 1},
+        "source_url": {"type": ["string", "null"]},
+        "file_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "content": {"type": "string", "minLength": 1},
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["page", "chapter", "section", "clause_no", "char_start", "char_end", "sheet_name", "cell_range"],
+      "properties": {
+        "page": {"type": ["integer", "null"], "minimum": 1},
+        "chapter": {"type": ["string", "null"]},
+        "section": {"type": ["string", "null"]},
+        "clause_no": {"type": ["string", "null"]},
+        "char_start": {"type": ["integer", "null"], "minimum": 0},
+        "char_end": {"type": ["integer", "null"], "minimum": 0},
+        "sheet_name": {"type": ["string", "null"]},
+        "cell_range": {"type": ["string", "null"]}
+      }
+    },
+    "table_semantics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["row_header", "column_header", "header_path", "value", "unit", "period", "scale", "footnote", "formula"],
+      "properties": {
+        "row_header": {"type": ["string", "null"]},
+        "column_header": {"type": ["string", "null"]},
+        "header_path": {"type": "array", "items": {"type": "string"}},
+        "value": {"type": ["string", "number", "boolean", "null"]},
+        "unit": {"type": ["string", "null"]},
+        "period": {"type": ["string", "null"]},
+        "scale": {"type": ["number", "null"]},
+        "footnote": {"type": ["string", "null"]},
+        "formula": {"type": ["string", "null"]}
+      }
+    },
+    "regulation_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agency", "publish_date", "effective_date", "expire_date", "status", "version_relation"],
+      "properties": {
+        "agency": {"type": ["string", "null"]},
+        "publish_date": {"type": ["string", "null"], "format": "date"},
+        "effective_date": {"type": ["string", "null"], "format": "date"},
+        "expire_date": {"type": ["string", "null"], "format": "date"},
+        "status": {"enum": ["effective", "expired", "repealed", "unknown", null]},
+        "version_relation": {"type": ["string", "null"]}
+      }
+    },
+    "quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["validation_status", "support_type", "sufficiency", "conflict_group", "parser_name", "parser_version", "warnings"],
+      "properties": {
+        "validation_status": {"enum": ["unreviewed", "auto_checked", "verified", "rejected"]},
+        "support_type": {"enum": ["direct", "supporting", "unknown"]},
+        "sufficiency": {"enum": ["sufficient", "insufficient", "conflicting", "unknown"]},
+        "conflict_group": {"type": ["string", "null"]},
+        "parser_name": {"type": "string"},
+        "parser_version": {"type": "string"},
+        "warnings": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}
+

@@ -1,80 +1,45 @@
-# FinRegAgents Competition Edition
+# 可信 RegRAG
 
-这个工作副本已改成赛题数据集适配版。
+面向银行业监管制度与统计报表的可信 RAG 问答项目，参加第五届中国研究生金融科技创新大赛。
 
-## 模型
+项目目标是围绕监管制度查询、统计报表取数和跨文件合规判断，建立可追溯、可校验、可复现的问答链路。当前仓库按“进度材料 → 统一契约 → Baseline → 评测 → 交付结果”组织。
 
-只使用一种 LLM：
+## 当前状态
 
-- Provider: `dashscope`
-- Model: `deepseek-v4-pro`
-- API Key: `DASHSCOPE_API_KEY`
-- Endpoint: `https://dashscope.aliyuncs.com/compatible-mode/v1`
+- 第一周：业务场景、用户故事、评测初稿、500 份语料清点、16 份解析 PoC、接口设计稿已归档。
+- 第二周：正在冻结统一仓库、接口契约、公平比较协议和联调验收规则。
+- 已知边界：`auto_checked` 仅表示自动结构校验，不等于人工确认；完整四类 Baseline 指标尚未形成。
 
-`DASHSCOPE_BASE_URL` 可选，用于覆盖默认百炼兼容接口地址。
+## 目录
 
-## 数据
-
-默认赛题数据目录：
-
-```powershell
-D:\code\金融\dataset
+```text
+docs/
+└── progress/
+    ├── project/       # 项目计划书
+    ├── week1/         # 第一周任务与成员交付
+    └── week2/         # 第二周任务与后续交付
 ```
 
-批量 QA 默认索引附件目录：
+第二周完成后将补充：
 
-```powershell
-D:\code\金融\dataset\数据集\nfra_page_attachments_500
+```text
+configs/      # 可复现实验配置
+data/         # 数据说明与版本引用，不提交受限原始语料
+index/        # 索引构建说明
+baselines/    # 统一 Baseline 接口
+evaluation/   # 评测协议与脚本
+outputs/      # 可公开的运行结果
+schemas/      # QueryPlan / EvidenceRecord / AnswerResponse / TraceRecord
+src/          # RegRAG 主工程
+tests/        # 契约与最小联调测试
 ```
 
-ingestion 会递归扫描文档目录，自动跳过 `__MACOSX`、`._*` 和 `QA数据.xlsx`，并读取：
+## 数据与合规
 
-- PDF
-- Word: `.docx`，旧 `.doc` 会尽量抽取文本
-- Excel/CSV: `.xlsx`、`.xls`、`.csv`
-- JSON/YAML/TXT/LOG
-- 图片占位元数据
+- 不提交 500 份赛题原始附件、报名材料、承诺书、密钥或模型缓存。
+- 外部开源项目只作为参考或依赖，必须记录来源、许可证和实际改动。
+- 所有运行结果必须绑定数据版本、解析器版本、模型、参数和时间戳。
 
-## 运行
+## 负责人
 
-批量回答 `QA数据.xlsx`：
-
-```powershell
-pip install -r requirements.txt
-python competition_qa.py
-```
-
-首次运行会建立 `.cache/competition_index`，之后会复用索引。强制重建：
-
-```powershell
-python competition_qa.py --rebuild-index
-```
-
-快速试跑前 3 题：
-
-```powershell
-python competition_qa.py --limit 3 --verbose
-```
-
-保留原审计 pipeline 入口：
-
-```powershell
-pip install -r requirements.txt
-python pipeline.py --regulatorik gwg --institution "Competition"
-```
-
-显式指定输入目录：
-
-```powershell
-python pipeline.py --input D:\code\金融\dataset --regulatorik gwg
-```
-
-启动 UI：
-
-```powershell
-streamlit run app.py
-```
-
-## 说明
-
-向量检索默认使用本地 Hash Embedding，因此项目只需要 `DASHSCOPE_API_KEY` 一个云端凭证。原论文自带 demo 数据不再作为默认输入。
+陈伦禄（项目协调、架构整合、代码审查与周验收）
