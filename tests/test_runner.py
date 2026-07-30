@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 
 from regrag.cli import main
-from regrag.contracts import QueryPlan
+from regrag.contracts import QueryPlan, QuerySlots
 from regrag.runner import load_method_registry, run_contract_smoke
 
 REPO = Path(__file__).resolve().parents[1]
@@ -37,6 +37,32 @@ def test_registry_marks_unimplemented_methods_blocked() -> None:
     assert registry["contract-smoke"]["status"] == "contract_smoke"
     assert registry["hybrid"]["status"] == "blocked"
     assert registry["hirec-lite"]["adapter"] is None
+
+
+def test_contract_smoke_refuses_unrelated_question() -> None:
+    query = QueryPlan(
+        query_id="Q-OUT-001",
+        question="请写一首关于宇宙的诗",
+        query_type="out_of_scope",
+        slots=QuerySlots(),
+        need_clarification=False,
+        is_multi_hop=False,
+        route_plan=["evidence_gate"],
+        max_hops=1,
+    )
+    result = run_contract_smoke(query, EVIDENCE, config_path=REGISTRY)
+    assert result.answer_response.status == "refused"
+    assert result.answer_response.evidence == []
+    assert result.trace_record.final_status == "refused"
+    assert result.trace_record.steps[-1].status == "skipped"
+
+
+def test_contract_smoke_rejects_empty_evidence_store(tmp_path: Path) -> None:
+    empty_store = tmp_path / "empty.jsonl"
+    empty_store.write_text("", encoding="utf-8")
+    query = QueryPlan.model_validate_json(QUERY.read_text(encoding="utf-8"))
+    with pytest.raises(ValueError, match="EvidenceStore is empty"):
+        run_contract_smoke(query, empty_store, config_path=REGISTRY)
 
 
 def test_cli_writes_uniform_result(tmp_path: Path) -> None:

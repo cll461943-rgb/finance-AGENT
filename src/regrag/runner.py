@@ -15,14 +15,18 @@ from .contracts import TraceStep
 from .run_result import BaselineRunResult, RetrievalHit, RunMetadata, RunMetrics
 
 READY_METHOD = "contract-smoke"
+MIN_SMOKE_SCORE = 3.0
 
 
 def load_evidence_store(path: Path) -> list[EvidenceRecord]:
-    return [
+    records = [
         EvidenceRecord.model_validate_json(line)
         for line in path.read_text(encoding="utf-8").splitlines()
         if line.strip()
     ]
+    if not records:
+        raise ValueError(f"EvidenceStore is empty: {path}")
+    return records
 
 
 def load_method_registry(path: Path) -> dict[str, dict]:
@@ -87,38 +91,63 @@ def run_contract_smoke(
         for rank, (score, evidence) in enumerate(scored[:5], start=1)
     ]
     top = hits[0].evidence
+    is_sufficient = (
+        hits[0].score >= MIN_SMOKE_SCORE
+        and top.quality.validation_status != "rejected"
+        and top.table_semantics.value is not None
+    )
     quality_warning = top.quality.validation_status != "verified"
     unit = top.table_semantics.unit or "（单位未标注）"
     row_header = (top.table_semantics.row_header or "").replace(" ", "")
     column_header = top.table_semantics.column_header or "目标值"
-    answer = (
-        f"根据{'自动校验样例（尚未人工复核）' if quality_warning else '已核验证据'}，"
-        f"《{top.source.title}》中，{row_header}{column_header}为"
-        f"{top.table_semantics.value}{unit}。"
-    )
     trace_id = f"TRACE-{uuid4().hex[:12].upper()}"
     elapsed_ms = (perf_counter() - started_clock) * 1000
-    answer_response = AnswerResponse(
-        query_id=query_plan.query_id,
-        status="answered",
-        answer=answer,
-        evidence=[top.evidence_id],
-        source_title=[top.source.title],
-        source_url=[top.source.source_url],
-        local_path=[top.source.local_path],
-        difficulty="easy",
-        qa_type=query_plan.query_type,
-        tags=["contract_smoke", f"evidence_{top.quality.validation_status}"],
-        citations=[
-            Citation(
-                evidence_id=top.evidence_id,
-                location=_location_label(top),
-                quote=top.content,
-            )
-        ],
-        trace_id=trace_id,
-        latency_ms=elapsed_ms,
-    )
+    if is_sufficient:
+        answer = (
+            f"根据{'自动校验样例（尚未人工复核）' if quality_warning else '已核验证据'}，"
+            f"《{top.source.title}》中，{row_header}{column_header}为"
+            f"{top.table_semantics.value}{unit}。"
+        )
+        answer_response = AnswerResponse(
+            query_id=query_plan.query_id,
+            status="answered",
+            answer=answer,
+            evidence=[top.evidence_id],
+            source_title=[top.source.title],
+            source_url=[top.source.source_url],
+            local_path=[top.source.local_path],
+            difficulty="easy",
+            qa_type=query_plan.query_type,
+            tags=["contract_smoke", f"evidence_{top.quality.validation_status}"],
+            citations=[
+                Citation(
+                    evidence_id=top.evidence_id,
+                    location=_location_label(top),
+                    quote=top.content,
+                )
+            ],
+            trace_id=trace_id,
+            latency_ms=elapsed_ms,
+        )
+    else:
+        answer_response = AnswerResponse(
+            query_id=query_plan.query_id,
+            status="refused",
+            answer=None,
+            evidence=[],
+            source_title=[],
+            source_url=[],
+            local_path=[],
+            difficulty="unknown",
+            qa_type=query_plan.query_type,
+            tags=["contract_smoke", "insufficient_evidence"],
+            refusal_reason=(
+                f"Top evidence score {hits[0].score:.3f} is below the "
+                f"{MIN_SMOKE_SCORE:.1f} contract-smoke threshold or evidence is unusable."
+            ),
+            trace_id=trace_id,
+            latency_ms=elapsed_ms,
+        )
     ended_at = datetime.now(UTC)
     trace_record = TraceRecord(
         trace_id=trace_id,
@@ -147,10 +176,18 @@ def run_contract_smoke(
                 step_no=3,
                 module="evidence_gate",
                 input_ref=top.evidence_id,
-                output_ref=top.evidence_id,
-                status="warning" if quality_warning else "success",
+                output_ref=top.evidence_id if is_sufficient else None,
+                status=(
+                    "failed"
+                    if not is_sufficient
+                    else "warning"
+                    if quality_warning
+                    else "success"
+                ),
                 message=(
-                    "Evidence is auto_checked, not manually verified."
+                    "Evidence is insufficient or unusable; answer generation is closed."
+                    if not is_sufficient
+                    else "Evidence is auto_checked, not manually verified."
                     if quality_warning
                     else "Evidence is manually verified."
                 ),
@@ -160,13 +197,17 @@ def run_contract_smoke(
                 step_no=4,
                 module="generator",
                 input_ref=top.evidence_id,
-                output_ref=trace_id,
-                status="success",
-                message="Deterministic table-value template; no LLM call.",
+                output_ref=trace_id if is_sufficient else None,
+                status="success" if is_sufficient else "skipped",
+                message=(
+                    "Deterministic table-value template; no LLM call."
+                    if is_sufficient
+                    else "Skipped because the evidence gate failed."
+                ),
                 elapsed_ms=0,
             ),
         ],
-        final_status="answered",
+        final_status=answer_response.status,
         token_usage=0,
         total_cost=0,
     )
